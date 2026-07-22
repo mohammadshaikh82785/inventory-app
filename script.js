@@ -2,420 +2,180 @@
 // Get HTML Elements
 // =========================
 
-const addProductBtn =
-    document.getElementById("addproductbtn");
-
-const addProductPage =
-    document.getElementById("addproductpage");
-
-const productImage =
-    document.getElementById("productimage");
-
-const productName =
-    document.getElementById("productname");
-
-const productCost =
-    document.getElementById("productcost");
-
-const sellingPrice =
-    document.getElementById("sellingprice");
-
-const saveProductBtn =
-    document.getElementById("saveproductbtn");
-
-const productList =
-    document.getElementById("productlist");
-
-const searchProduct =
-    document.getElementById("searchproduct");
-
+const addProductBtn = document.getElementById("addproductbtn");
+const addProductPage = document.getElementById("addproductpage");
+const productImage = document.getElementById("productimage");
+const productName = document.getElementById("productname");
+const productCost = document.getElementById("productcost");
+const sellingPrice = document.getElementById("sellingprice");
+const saveProductBtn = document.getElementById("saveproductbtn");
+const productList = document.getElementById("productlist");
+const searchProduct = document.getElementById("searchproduct");
 
 // =========================
 // Load Products
-// From LocalStorage
 // =========================
 
-let products =
-    JSON.parse(
-        localStorage.getItem("products")
-    ) || [];
+let products = JSON.parse(localStorage.getItem("products")) || [];
 
-
-// =========================
-// Hide Add Product Form
-// =========================
+// Hide Form
 
 addProductPage.style.display = "none";
 
-
 // =========================
 // Save Products
-// To LocalStorage
 // =========================
 
 function saveProducts() {
-
-    localStorage.setItem(
-        "products",
-        JSON.stringify(products)
-    );
-
+    localStorage.setItem("products", JSON.stringify(products));
 }
 
+// =========================
+// Clear Form
+// =========================
+
+function clearForm() {
+    productName.value = "";
+    productCost.value = "";
+    sellingPrice.value = "";
+    productImage.value = null;
+
+    addProductPage.style.display = "none";
+}
 
 // =========================
 // Show Add Product Form
 // =========================
 
-addProductBtn.addEventListener(
-    "click",
-    function () {
+addProductBtn.addEventListener("click", () => {
 
-        addProductPage.style.display =
-            "block";
+    clearForm();
 
-        addProductPage.scrollIntoView({
+    addProductPage.style.display = "block";
 
-            behavior: "smooth"
+    addProductPage.scrollIntoView({
+        behavior: "smooth"
+    });
 
-        });
+});
 
+// =========================
+// Save Product
+// =========================
+
+saveProductBtn.addEventListener("click", () => {
+
+    const name = productName.value.trim();
+    const cost = Number(productCost.value);
+    const selling = Number(sellingPrice.value);
+
+    if (!name || productCost.value === "" || sellingPrice.value === "") {
+        alert("Please fill all product details!");
+        return;
     }
-);
 
+    if (cost < 0 || selling < 0) {
+        alert("Price cannot be negative!");
+        return;
+    }
 
-// =========================
-// Save New Product
-// =========================
+    const product = {
+        id: Date.now(),
+        name,
+        cost,
+        selling,
+        image: ""
+    };
 
-saveProductBtn.addEventListener(
-    "click",
-    function () {
+    // With Image
 
+    if (productImage.files.length > 0) {
 
-        // Get Product Name
+        const reader = new FileReader();
 
-        const name =
-            productName.value
-                .trim();
+        reader.onload = (e) => {
 
+            product.image = e.target.result;
 
-        // Get Cost Price
-
-        const cost =
-            productCost.value;
-
-
-        // Get Selling Price
-
-        const selling =
-            sellingPrice.value;
-
-
-        // =========================
-        // Check Required Fields
-        // =========================
-
-        if (
-            name === "" ||
-            cost === "" ||
-            selling === ""
-        ) {
-
-            alert(
-                "Please fill all product details!"
-            );
-
-            return;
-
-        }
-
-
-        // =========================
-        // Convert Prices
-        // =========================
-
-        const costNumber =
-            Number(cost);
-
-        const sellingNumber =
-            Number(selling);
-
-
-        // =========================
-        // Check Valid Prices
-        // =========================
-
-        if (
-            costNumber < 0 ||
-            sellingNumber < 0
-        ) {
-
-            alert(
-                "Price cannot be negative!"
-            );
-
-            return;
-
-        }
-
-
-        // =========================
-        // Create Product
-        // =========================
-
-        const product = {
-
-            id: Date.now(),
-
-            name: name,
-
-            cost: costNumber,
-
-            selling: sellingNumber,
-
-            image: ""
-
-        };
-
-
-        // =========================
-        // Check Product Image
-        // =========================
-
-        if (
-            productImage.files.length > 0
-        ) {
-
-
-            const file =
-                productImage.files[0];
-
-
-            const reader =
-                new FileReader();
-
-
-            // =========================
-            // Read Image
-            // =========================
-
-            reader.onload =
-                function (event) {
-
-
-                    product.image =
-                        event.target.result;
-
-
-                    // Add Product
-
-                    products.push(
-                        product
-                    );
-
-
-                    // Save Product
-
-                    saveProducts();
-
-
-                    // Display Products
-
-                    displayProducts();
-
-
-                    // Clear Form
-
-                    clearForm();
-
-
-                    alert(
-                        "Product added successfully!"
-                    );
-
-                };
-
-
-            reader.readAsDataURL(
-                file
-            );
-
-
-        } else {
-
-
-            // =========================
-            // Add Product Without Image
-            // =========================
-
-            products.push(
-                product
-            );
-
-
-            // Save Product
+            products.push(product);
 
             saveProducts();
 
-
-            // Display Products
-
             displayProducts();
-
-
-            // Clear Form
 
             clearForm();
 
+            alert("Product added successfully!");
 
-            alert(
-                "Product added successfully!"
-            );
+        };
 
-        }
+        reader.readAsDataURL(productImage.files[0]);
 
-    }
-);
+    } else {
 
+        products.push(product);
 
-// =========================
-// Display All Products
+        saveProducts();
+
+        displayProducts();
+
+        clearForm();
+        // =========================
+// Display Products
 // =========================
 
 function displayProducts() {
 
+    productList.innerHTML = "<h2>Products</h2>";
 
-    // Clear Product List
+    if (products.length === 0) {
 
-    productList.innerHTML =
-        "<h2>Products</h2>";
-
-
-    // =========================
-    // Check Products
-    // =========================
-
-    if (
-        products.length === 0
-    ) {
-
-        productList.innerHTML +=
-            `
+        productList.innerHTML += `
             <p class="no-product">
                 No products added yet.
             </p>
-            `;
+        `;
 
         return;
-
     }
 
+    products.forEach((product) => {
 
-    // =========================
-    // Display Every Product
-    // =========================
+        const productCard = document.createElement("div");
+        productCard.className = "product-card";
 
-    products.forEach(
-        function (product) {
+        const profit = product.selling - product.cost;
 
-
-            // Create Card
-
-            const productCard =
-                document.createElement(
-                    "div"
-                );
-
-
-            productCard.className =
-                "product-card";
-
-
-            // =========================
-            // Product Image
-            // =========================
-
-            let imageHTML = "";
-
-
-            if (
-                product.image !== ""
-            ) {
-
-                imageHTML = `
-
-                    <img
-                        src="${product.image}"
-                        alt="${product.name}"
-                        class="product-image"
-                    >
-
-                `;
-
-            }
-
-
-            // =========================
-            // Calculate Profit
-            // =========================
-
-            const profit =
-                product.selling -
-                product.cost;
-
-
-            // =========================
-            // Product Card HTML
-            // =========================
-
-            productCard.innerHTML = `
-
-                ${imageHTML}
-
-                <h3>
-                    ${product.name}
-                </h3>
-
-                <p>
-                    Cost Price:
-                    ₹${product.cost}
-                </p>
-
-                <p>
-                    Selling Price:
-                    ₹${product.selling}
-                </p>
-
-                <p>
-                    Profit:
-                    ₹${profit}
-                </p>
-
-                <button
-                    class="delete-btn"
-                    onclick="deleteProduct(${product.id})"
+        productCard.innerHTML = `
+            ${product.image ? `
+                <img
+                    src="${product.image}"
+                    alt="${product.name}"
+                    class="product-image"
                 >
-                    Delete
-                </button>
+            ` : ""}
 
-            `;
+            <h3>${product.name}</h3>
 
+            <p>Cost Price: ₹${product.cost}</p>
 
-            // =========================
-            // Add Card
-            // To Product List
-            // =========================
+            <p>Selling Price: ₹${product.selling}</p>
 
-            productList.appendChild(
-                productCard
-            );
+            <p>Profit: ₹${profit}</p>
 
-        }
-    );
+            <button
+                class="delete-btn"
+                onclick="deleteProduct(${product.id})"
+            >
+                Delete
+            </button>
+        `;
+
+        productList.appendChild(productCard);
+
+    });
 
 }
-
 
 // =========================
 // Delete Product
@@ -423,267 +183,96 @@ function displayProducts() {
 
 function deleteProduct(id) {
 
+    const confirmDelete = confirm(
+        "Are you sure you want to delete this product?"
+    );
 
-    // =========================
-    // Confirm Delete
-    // =========================
+    if (!confirmDelete) return;
 
-    const confirmDelete =
-        confirm(
-            "Are you sure you want to delete this product?"
-        );
-
-
-    if (
-        !confirmDelete
-    ) {
-
-        return;
-
-    }
-
-
-    // =========================
-    // Remove Product
-    // =========================
-
-    products =
-        products.filter(
-            function (product) {
-
-                return (
-                    product.id !== id
-                );
-
-            }
-        );
-
-
-    // =========================
-    // Save Updated Products
-    // =========================
+    products = products.filter(product => product.id !== id);
 
     saveProducts();
-
-
-    // =========================
-    // Refresh Product List
-    // =========================
 
     displayProducts();
 
 }
-
-
-// =========================
-// Clear Product Form
-// =========================
-
-function clearForm() {
-
-
-    productName.value = "";
-
-    productCost.value = "";
-
-    sellingPrice.value = "";
-
-    productImage.value = "";
-
-
-    // Hide Form
-
-    addProductPage.style.display =
-        "none";
-
-}
-
-
-// =========================
+        // =========================
 // Search Product
 // =========================
 
-searchProduct.addEventListener(
-    "input",
-    function () {
+searchProduct.addEventListener("input", () => {
 
+    const searchText = searchProduct.value
+        .toLowerCase()
+        .trim();
 
-        // Get Search Text
+    const filteredProducts = products.filter((product) =>
+        product.name.toLowerCase().includes(searchText)
+    );
 
-        const searchText =
-            searchProduct.value
-                .toLowerCase()
-                .trim();
+    displayFilteredProducts(filteredProducts);
 
-
-        // =========================
-        // Filter Products
-        // =========================
-
-        const filteredProducts =
-            products.filter(
-                function (product) {
-
-                    return product.name
-                        .toLowerCase()
-                        .includes(searchText);
-
-                }
-            );
-
-
-        // =========================
-        // Display Search Results
-        // =========================
-
-        displayFilteredProducts(
-            filteredProducts
-        );
-
-    }
-);
-
+});
 
 // =========================
 // Display Filtered Products
 // =========================
 
-function displayFilteredProducts(
-    filteredProducts
-) {
+function displayFilteredProducts(filteredProducts) {
 
+    productList.innerHTML = "<h2>Products</h2>";
 
-    // Clear Product List
+    if (filteredProducts.length === 0) {
 
-    productList.innerHTML =
-        "<h2>Products</h2>";
-
-
-    // =========================
-    // No Product Found
-    // =========================
-
-    if (
-        filteredProducts.length === 0
-    ) {
-
-        productList.innerHTML +=
-            `
+        productList.innerHTML += `
             <p class="no-product">
                 No product found.
             </p>
-            `;
+        `;
 
         return;
-
     }
 
+    filteredProducts.forEach((product) => {
 
-    // =========================
-    // Display Filtered Products
-    // =========================
+        const productCard = document.createElement("div");
+        productCard.className = "product-card";
 
-    filteredProducts.forEach(
-        function (product) {
+        const profit = product.selling - product.cost;
 
-
-            // Create Product Card
-
-            const productCard =
-                document.createElement(
-                    "div"
-                );
-
-
-            productCard.className =
-                "product-card";
-
-
-            // =========================
-            // Product Image
-            // =========================
-
-            let imageHTML = "";
-
-
-            if (
-                product.image !== ""
-            ) {
-
-                imageHTML = `
-
-                    <img
-                        src="${product.image}"
-                        alt="${product.name}"
-                        class="product-image"
-                    >
-
-                `;
-
-            }
-
-
-            // =========================
-            // Calculate Profit
-            // =========================
-
-            const profit =
-                product.selling -
-                product.cost;
-
-
-            // =========================
-            // Product Card
-            // =========================
-
-            productCard.innerHTML = `
-
-                ${imageHTML}
-
-                <h3>
-                    ${product.name}
-                </h3>
-
-                <p>
-                    Cost Price:
-                    ₹${product.cost}
-                </p>
-
-                <p>
-                    Selling Price:
-                    ₹${product.selling}
-                </p>
-
-                <p>
-                    Profit:
-                    ₹${profit}
-                </p>
-
-                <button
-                    class="delete-btn"
-                    onclick="deleteProduct(${product.id})"
+        productCard.innerHTML = `
+            ${product.image ? `
+                <img
+                    src="${product.image}"
+                    alt="${product.name}"
+                    class="product-image"
                 >
-                    Delete
-                </button>
+            ` : ""}
 
-            `;
+            <h3>${product.name}</h3>
 
+            <p>Cost Price: ₹${product.cost}</p>
 
-            // Add Card
+            <p>Selling Price: ₹${product.selling}</p>
 
-            productList.appendChild(
-                productCard
-            );
+            <p>Profit: ₹${profit}</p>
 
-        }
-    );
+            <button
+                class="delete-btn"
+                onclick="deleteProduct(${product.id})"
+            >
+                Delete
+            </button>
+        `;
+
+        productList.appendChild(productCard);
+
+    });
 
 }
 
-
 // =========================
 // Load Products
-// When Page Opens
 // =========================
 
 displayProducts();
