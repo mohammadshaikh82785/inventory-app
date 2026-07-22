@@ -1,0 +1,418 @@
+/* =========================
+   Global Reset
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   Body
+========================= */
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    background-color: #f4f6f8;
+
+    color: #333;
+
+    padding: 20px;
+
+}
+
+
+/* =========================
+   Header
+========================= */
+
+header {
+
+    background-color: #2563eb;
+
+    color: white;
+
+    padding: 20px;
+
+    text-align: center;
+
+    border-radius: 10px;
+
+    margin-bottom: 20px;
+
+}
+
+header h1 {
+
+    font-size: 28px;
+
+}
+
+
+/* =========================
+   Search Section
+========================= */
+
+.search-section {
+
+    margin-bottom: 20px;
+
+}
+
+
+/* =========================
+   Search Input
+========================= */
+
+#searchproduct {
+
+    width: 100%;
+
+    padding: 12px 15px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    outline: none;
+
+}
+
+#searchproduct:focus {
+
+    border-color: #2563eb;
+
+}
+
+
+/* =========================
+   Product List
+========================= */
+
+#productlist {
+
+    background-color: white;
+
+    padding: 20px;
+
+    border-radius: 10px;
+
+    margin-bottom: 20px;
+
+    min-height: 150px;
+
+    box-shadow:
+        0 2px 8px
+        rgba(0, 0, 0, 0.08);
+
+}
+
+#productlist h2 {
+
+    margin-bottom: 15px;
+
+    color: #222;
+
+}
+
+
+/* =========================
+   Product Card
+========================= */
+
+.product-card {
+
+    background-color: #f8fafc;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    padding: 15px;
+
+    margin-top: 15px;
+
+}
+
+
+/* =========================
+   Product Card Title
+========================= */
+
+.product-card h3 {
+
+    margin-top: 10px;
+
+    margin-bottom: 10px;
+
+    color: #222;
+
+    font-size: 20px;
+
+}
+
+
+/* =========================
+   Product Card Text
+========================= */
+
+.product-card p {
+
+    margin-bottom: 6px;
+
+    color: #555;
+
+    font-size: 15px;
+
+}
+
+
+/* =========================
+   Product Image
+========================= */
+
+.product-image {
+
+    width: 100%;
+
+    max-width: 220px;
+
+    height: 180px;
+
+    object-fit: cover;
+
+    border-radius: 8px;
+
+    display: block;
+
+    margin-bottom: 10px;
+
+}
+
+
+/* =========================
+   Add Product Button
+========================= */
+
+#addproductbtn {
+
+    width: 100%;
+
+    padding: 14px;
+
+    background-color: #16a34a;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    margin-bottom: 20px;
+
+}
+
+#addproductbtn:hover {
+
+    background-color: #15803d;
+
+}
+
+
+/* =========================
+   Add Product Form
+========================= */
+
+#addproductpage {
+
+    background-color: white;
+
+    padding: 20px;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 2px 8px
+        rgba(0, 0, 0, 0.08);
+
+}
+
+#addproductpage h2 {
+
+    margin-bottom: 20px;
+
+    color: #222;
+
+}
+
+
+/* =========================
+   Form Labels
+========================= */
+
+#addproductpage label {
+
+    display: block;
+
+    margin-top: 15px;
+
+    margin-bottom: 6px;
+
+    font-weight: bold;
+
+    color: #333;
+
+}
+
+
+/* =========================
+   Form Inputs
+========================= */
+
+#addproductpage input {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    outline: none;
+
+}
+
+#addproductpage input:focus {
+
+    border-color: #2563eb;
+
+}
+
+
+/* =========================
+   Save Product Button
+========================= */
+
+#saveproductbtn {
+
+    width: 100%;
+
+    padding: 14px;
+
+    margin-top: 25px;
+
+    background-color: #2563eb;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+}
+
+#saveproductbtn:hover {
+
+    background-color: #1d4ed8;
+
+}
+
+
+/* =========================
+   Delete Button
+========================= */
+
+.delete-btn {
+
+    margin-top: 12px;
+
+    padding: 10px 16px;
+
+    background-color: #dc2626;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+}
+
+.delete-btn:hover {
+
+    background-color: #b91c1c;
+
+}
+
+
+/* =========================
+   No Product Message
+========================= */
+
+.no-product {
+
+    color: #777;
+
+    margin-top: 10px;
+
+}
+
+
+/* =========================
+   Mobile Responsive
+========================= */
+
+@media (max-width: 600px) {
+
+    body {
+
+        padding: 10px;
+
+    }
+
+
+    header h1 {
+
+        font-size: 24px;
+
+    }
+
+
+    #addproductpage,
+    #productlist {
+
+        padding: 15px;
+
+    }
+
+
+    .product-image {
+
+        max-width: 100%;
+
+        height: 200px;
+
+    }
+
+}

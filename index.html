@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Inventory</title>
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <!-- PWA Manifest -->
+    <link
+        rel="manifest"
+        href="manifest.json"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- =========================
+         Header
+    ========================== -->
+
+    <header>
+
+        <h1>
+            My Inventory
+        </h1>
+
+    </header>
+
+
+    <!-- =========================
+         Search Product
+    ========================== -->
+
+    <section class="search-section">
+
+        <input
+            type="search"
+            id="searchproduct"
+            placeholder="Search product..."
+        >
+
+    </section>
+
+
+    <!-- =========================
+         Product List
+    ========================== -->
+
+    <section id="productlist">
+
+        <h2>
+            Products
+        </h2>
+
+    </section>
+
+
+    <!-- =========================
+         Add Product Button
+    ========================== -->
+
+    <section>
+
+        <button
+            id="addproductbtn"
+            type="button"
+        >
+
+            + Add Product
+
+        </button>
+
+    </section>
+
+
+    <!-- =========================
+         Add Product Form
+    ========================== -->
+
+    <section
+        id="addproductpage"
+        class="add-product-page"
+    >
+
+        <h2>
+            Add New Product
+        </h2>
+
+
+        <!-- Product Photo -->
+
+        <label for="productimage">
+            Product Photo
+        </label>
+
+        <input
+            type="file"
+            id="productimage"
+            accept="image/*"
+            capture="environment"
+        >
+
+
+        <!-- Product Name -->
+
+        <label for="productname">
+            Product Name
+        </label>
+
+        <input
+            type="text"
+            id="productname"
+            placeholder="Enter product name"
+        >
+
+
+        <!-- Cost Price -->
+
+        <label for="productcost">
+            Cost Price
+        </label>
+
+        <input
+            type="number"
+            id="productcost"
+            placeholder="Enter cost price"
+            min="0"
+        >
+
+
+        <!-- Selling Price -->
+
+        <label for="sellingprice">
+            Selling Price
+        </label>
+
+        <input
+            type="number"
+            id="sellingprice"
+            placeholder="Enter selling price"
+            min="0"
+        >
+
+
+        <!-- Save Button -->
+
+        <button
+            id="saveproductbtn"
+            type="button"
+        >
+
+            Save Product
+
+        </button>
+
+    </section>
+
+
+    <!-- =========================
+         JavaScript
+    ========================== -->
+
+    <script src="script.js"></script>
+
+
+    <!-- =========================
+         Service Worker
+    ========================== -->
+
+    <script>
+
+        if ("serviceWorker" in navigator) {
+
+            window.addEventListener(
+                "load",
+                function () {
+
+                    navigator.serviceWorker
+                        .register("./sw.js")
+
+                        .then(function () {
+
+                            console.log(
+                                "Service Worker registered successfully"
+                            );
+
+                        })
+
+                        .catch(function (error) {
+
+                            console.log(
+                                "Service Worker registration failed:",
+                                error
+                            );
+
+                        });
+
+                }
+            );
+
+        }
+
+    </script>
+
+</body>
+
+</html>
